@@ -1,0 +1,23 @@
+hosts
+[servers]
+server1 ansible_host={}
+
+---
+- hosts : all
+  gather_facts : no
+
+  tasks:
+    - name : install apache2 package
+      apt : 
+        name : apache2
+        state : latest
+
+    - name: Start apache2 service
+      service: 
+        name : apache2
+        state : started
+    
+    - name : Create index.html
+      copy : 
+        content : "Hello Tejas"
+        dest : /var/www/html/index.html
