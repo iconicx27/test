@@ -13,8 +13,10 @@ jobs:
 
       - name: github authorization
         run: |
+          echo "Current User: ${{ github.actor }}"
           git config --global user.name "${{ github.actor }}"
           curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://api.github.com/user
+          git config -l
 
       - name: merging master to dev branch
         run: |
