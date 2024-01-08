@@ -19,7 +19,7 @@ jobs:
       - name: merging master to dev branch
         run: |
           echo "code checkout and authorization done!"
-          git checkout master
+          git checkout main
           git pull
           git checkout ${{ github.event.pull_request.head.ref }}
           git merge master --no-edit
