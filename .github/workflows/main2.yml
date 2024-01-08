@@ -22,7 +22,7 @@ jobs:
           git checkout main
           git pull
           git checkout ${{ github.event.pull_request.head.ref }}
-          git merge master --no-edit
+          git merge main --no-edit
 
           if [ $? -ne 0 ]; then
             echo "Merge conflict detected. Aborting."
