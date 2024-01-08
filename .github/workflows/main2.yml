@@ -1,0 +1,35 @@
+name: Merge Master into Development
+on: push
+
+jobs:
+  
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: github authorization
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://api.github.com/user
+
+      - name: merging master to dev branch
+        run: |
+          echo "code checkout and authorization done!"
+          git checkout master
+          git pull
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git merge master --no-edit
+
+          if [ $? -ne 0 ]; then
+            echo "Merge conflict detected. Aborting."
+            git log --oneline --merges -1
+            exit 1
+          else
+            git push origin "${{ steps.extract_branch_name.outputs.branch }}"
+            echo "The merge was successful. No further action is required."
+          fi
+      
