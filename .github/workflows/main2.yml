@@ -1,6 +1,9 @@
 name: Merge Master into Development
 on: push
-
+permissions:
+  contents: write
+  # security-events: write
+  # actions: read
 jobs:
   
   merge:
