@@ -20,7 +20,9 @@ jobs:
           git config --global user.name "${{ github.actor }}"
           curl -u ${{ github.actor }}:${{ secrets.GIT_TOKEN }} https://api.github.com/user
           git config -l
-
+      - name: Extract Branch Name
+        id: extract_branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
       - name: merging master to dev branch
         run: |
           echo "code checkout and authorization done!"
