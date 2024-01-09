@@ -1,16 +1,13 @@
 name: Merge Master into Development
 on: push
-permissions:
-  contents: write
-  security-events: write
-  actions: read
+
 jobs:
   
   merge:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -22,7 +19,10 @@ jobs:
           git config -l
       - name: Extract Branch Name
         id: extract_branch_name
-        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          echo "BRANCH_NAME=$branch" >> $GITHUB_ENV
+      
       - name: merging master to dev branch
         run: |
           echo "code checkout and authorization done!"
@@ -36,7 +36,7 @@ jobs:
             git log --oneline --merges -1
             exit 1
           else
-            git push origin "${{ steps.extract_branch_name.outputs.branch }}"
+            git push origin "${{ env.BRANCH_NAME }}"
             echo "The merge was successful. No further action is required."
           fi
       
