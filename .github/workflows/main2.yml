@@ -18,6 +18,7 @@ jobs:
         run: |
           echo "Current User: ${{ github.actor }}"
           git config --global user.name "${{ github.actor }}"
+          git config --global user.email "sonartejas00@example.com"
           curl -u ${{github.actor}}:${{ secrets.GIT_TOKEN }} https://api.github.com/user
           git config -l
       - name: Extract Branch Name
