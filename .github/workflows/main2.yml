@@ -31,7 +31,7 @@ jobs:
           echo "code checkout and authorization done!"
           git checkout main
           git pull
-          git checkout ${{ github.event.pull_request.head.ref }}
+          git checkout ${{ env.BRANCH_NAME }}
           git merge main --no-edit
 
           if [ $? -ne 0 ]; then
